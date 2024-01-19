@@ -36,3 +36,58 @@
     transform: rotate(360deg);
   }
 }
+
+
+.cards-table-container {
+  margin: 20px;
+}
+
+.cards-table {
+  width: 50%;
+  border-collapse: collapse;
+}
+
+.cards-table th, .cards-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.cards-table th {
+  background-color: #f2f2f2;
+}
+
+.cards-table-container label {
+  font-size: 20px; 
+  display: block;
+  text-align: center; 
+}
+
+.cards-table th, .cards-table td {
+  font-size: 18px;
+  text-align: center;
+}
+
+.cards-table input[type="checkbox"] {
+  transform: scale(3); 
+  margin-right: 5px; 
+}
+
+
+.custom-table {
+  border-collapse: collapse;
+}
+
+.custom-table th, .custom-table td {
+  border: 1px dashed black;
+  padding: 8px;
+}
+
+.inner-table {
+  border: none;
+}
+
+.inner-table th, .inner-table td {
+  border: none;
+  padding: 4px;
+}

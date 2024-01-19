@@ -1,7 +1,15 @@
 import React from 'react';
 import { supportCardProperties } from '../constants';
+import MultiLineText from './MultiLineText'; 
+
+function IsScenarioLink(charName, scenarioLink) {
+    return scenarioLink.includes(charName);
+}
+
 
 function SupportCard(props) {
+    
+
     let lit_up = "";
     let dark = "";
     
@@ -14,15 +22,39 @@ function SupportCard(props) {
     }
 
     let statDisplays = ["","",""];
+    let isScenarioLink = IsScenarioLink(props.charName,props.scenarioLink);
+
+    let alreadySelected = props.selected.indexOf(props.charName) > -1;
+    if ('isMyCard' in props) {
+        alreadySelected = props.selected.indexOf(props.id) > -1;
+
+        return (
+            <div className="support-card">
+                <img
+                    className={alreadySelected ? "support-card-image selected" : "support-card-image"}
+                    name={props.id}
+                    src={process.env.PUBLIC_URL + "/cardImages/support_card_s_" + props.id + ".png"}
+                    title={props.charName}
+                    alt={props.charName}
+                    onClick={alreadySelected ? ()=>{} : props.onClick}
+                />
+                <MultiLineText twName={props.twName} 
+                isScenarioLink={isScenarioLink}
+                />
+                <span className="limit-breaks">
+                    <span className="lb-yes">{lit_up}</span>
+                    <span className="lb-no">{dark}</span>
+                </span>
+            </div>
+        );
+    }
 
     for(let i=0; i<3; i++) {
         let stat = props.stats[i];
         if (stat == "none") continue;
         let value = props.card[stat];
         if (stat == "fs_bonus") {
-            console.log("pre: " + value);
             value *= props.card["unique_fs_bonus"];
-            console.log(value);
         } else if (stat == "specialty_rate") {
             value = (value + 100) * props.card["unique_specialty"] * props.card["fs_specialty"] - 100;
         }
@@ -36,7 +68,9 @@ function SupportCard(props) {
         statDisplays[i] = `${value}${supportCardProperties[stat].shorthand}`;
     }
 
-    const alreadySelected = props.selected.indexOf(props.charName) > -1;
+   
+   
+
 
     return (
         <div className="support-card">
@@ -52,7 +86,9 @@ function SupportCard(props) {
                 <span className="lb-yes">{lit_up}</span>
                 <span className="lb-no">{dark}</span>
             </span>
-            <span className="score" onClick={() => console.log(props.info)}>
+            <MultiLineText twName={props.twName}
+                         isScenarioLink={isScenarioLink}/>
+            <span className="score">
                 {Math.round(props.score)}
             </span>
             <span className="stat-1">

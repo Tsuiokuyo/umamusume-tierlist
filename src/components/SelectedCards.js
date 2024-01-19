@@ -87,51 +87,28 @@ function SelectedCards(props) {
         statsNoTraining[stat] += Math.floor(13.5 * raceMultiplier) * 3;
         statsNoTraining[stat] = Math.round(statsNoTraining[stat]);
     }
-
-    console.log("Stat gains without training: ");
-    console.log(statsNoTraining);
+    
 
     return (
         <div className="selected-cards">
-            <div className="section-header">Support Deck</div>
+            <div className="section-header">支援卡面板</div>
             <div className="section-explanation">
-                The cards you're using. Click one to remove it, and click one in the tier list to add it.<br/>
-                The score will consider the stats gained when training with these cards.
+            按一下會刪除卡片，然後點下面清單中的卡片新增<br/>
+                 分數會使用這些卡片進行訓練時獲得的統計數據，至少需要一張。
             </div>
             {cards}
             <div>
-                Total Race Bonus: <b>{raceBonus}</b> <i>(aim for 35 for URA/Aoharu, 50 for MANT)</i>
+                總競賽加成: <b>{raceBonus}</b> 
+                {/* <i>(推薦為35,巔峰杯為50 )</i> */}
             </div>
-            <div class="link">
-                <a href={getEventHelperURL(props.selectedCards)} target="_blank">Open in Gametora Event Helper</a>
-            </div>
-            <div>
-                Presets:
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20009,20003,30137])}>Speed/Power</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20008,30022,30137])}>Speed/Stamina</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20023,20033,20012,20002,30137])}>Speed/Int</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20048,20041,20012,20002])}>Guts/Int</button>
-            </div>
-            <div>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20012,20016,20025,20002,10060])}>Aoharu Parent</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([30028,20008,20009,30019,20012])}>Highlander</button>
-                <button className="btn-preset" onClick={()=>props.onLoadPreset([20031,30074,20027,20012,30054])}>Race Bonus</button>
-            </div>
+            {/* <div class="link">
+                 <a href={getEventHelperURL(props.selectedCards)} target="_blank">Open in Gametora Event Helper</a> 
+            </div> */}
+
         </div>
     );
 }
 
-function getEventHelperURL(selectedCards) {
-    let url = "https://gametora.com/umamusume/training-event-helper?deck=mp4y-";
 
-    let ids = selectedCards.map(c => c.id);
-    while (ids.length < 6) ids.push(10000)
-
-    url += parseInt(`${ids[0]}${ids[1]}${ids[2]}`, 10).toString(36);
-    url += "-";
-    url += parseInt(`${ids[3]}${ids[4]}${ids[5]}`, 10).toString(36);
-
-    return url;
-}
 
 export default SelectedCards;

@@ -1,30 +1,30 @@
 export const supportCardProperties = {
     race_bonus: {
-        friendly_name: "Race Bonus",
-        shorthand: "RB"
+        friendly_name: "競賽加成",
+        shorthand: "競賽"
     },
     tb: {
-        friendly_name: "Training Bonus",
-        shorthand: "TB"
+        friendly_name: "訓練加成",
+        shorthand: "訓練"
     },
     fs_bonus: {
-        friendly_name: "Friendship Bonus",
-        shorthand: "FB"
+        friendly_name: "友情加成",
+        shorthand: "友情"
     },
     mb: {
-        friendly_name: "Motivation Bonus",
-        shorthand: "MB"
+        friendly_name: "幹勁加成",
+        shorthand: "幹勁"
     },
     sb: {
-        friendly_name: "Starting Bond",
-        shorthand: "SB"
+        friendly_name: "初始羈絆",
+        shorthand: "初始羈絆"
     },
     specialty_rate: {
-        friendly_name: "Specialty Rate",
-        shorthand: "SR"
+        friendly_name: "擅長率",
+        shorthand: "擅長率"
     },
     hint_rate: {
-        friendly_name: "Hint Rate",
-        shorthand: "HR"
+        friendly_name: "靈感(紅點)",
+        shorthand: "靈感"
     },
 }

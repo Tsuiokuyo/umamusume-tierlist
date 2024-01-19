@@ -6,9 +6,11 @@ class Filters extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ssr:[true,false,true,false,true],
-            sr:[true,false,true,false,true],
-            r: [false,false,false,false,true],
+            ssr:[true,true,true,true,true],
+            sr:[true,true,true,true,true],
+            r: [true,true,true,true,true],
+            isMycard: true,
+            serverTW: true,
         };
 
         this.onSettingChanged = this.onSettingChanged.bind(this);
@@ -32,6 +34,14 @@ class Filters extends React.Component {
         });
         this.props.onCardsChanged(availableCards);
     }
+
+    handleChecksChange = (event, value) => {
+        if (value === 'CARD') {
+            this.setState({ isMycard: event.target.checked });
+        }
+            this.props.onClick(value, event.target.checked);
+      
+    };
 
     componentDidUpdate(prevProps, prevState) {
         if(prevState && prevState !== this.state && lsTest()) {
@@ -104,6 +114,23 @@ class Filters extends React.Component {
                         {rows}
                     </table>
                 </div>
+                <div>僅顯示持有的牌組(從最下面設定)
+                <input
+                    type="checkbox"
+                    defaultChecked={true}
+                    checked={this.state.isMycard}
+                    onChange={(event) => this.handleChecksChange(event, 'CARD')}
+/>
+                </div>
+                {/* <div>僅顯示台服卡片
+                                <input
+                    type="checkbox"
+                    defaultChecked={true}
+                    checked={this.state.serverTW}
+                    onChange={(event) => this.handleChecksChange(event, 'TW')}
+                />
+                 </div> */}
+                
             </div>
         );
     }

@@ -4,27 +4,29 @@ import events from '../card-events';
 import { supportCardProperties } from '../constants';
 import Select from 'react-select';
 
-const ordinal = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"];
-const type_names = ["Speed", "Stamina", "Power", "Guts", "Wisdom", "", "Friend"];
+const ordinal = ["1", "2", "3", "4", "5", "6", "7"];
+const type_names = ["速卡", "耐卡", "力卡", "意志卡", "智卡", "", "友人卡"];
 
 class TierList extends React.Component {
     constructor (props) {
         super(props);
 
         this.state = {
-            dropdownSelections: ["none","none","none"]
+            dropdownSelections: ["none","none","none"],
+            train: {}, 
         }
 
         this.onDropdown1Changed = this.onDropdown1Changed.bind(this);
         this.onDropdown2Changed = this.onDropdown2Changed.bind(this);
         this.onDropdown3Changed = this.onDropdown3Changed.bind(this);
+   
+       
     }
 
     //lmao
     onDropdown1Changed(newValue) {
         let newSelections = this.state.dropdownSelections.slice();
         newSelections[0] = newValue.value;
-        console.log(newValue);
         this.setState({dropdownSelections:newSelections});
     }
     onDropdown2Changed(newValue) {
@@ -39,15 +41,30 @@ class TierList extends React.Component {
     }
 
     render() {
+
+        
         let cards = this.props.cards;
+        // if(this.props.checkBox['TW']){
+            cards = cards.filter(card => this.props.twCardNames.hasOwnProperty(card.id));
+        // }
+
+        if(this.props.checkBox['CARD']){
+             cards = cards.filter(card => {
+                const shouldKeep = this.props.mycardsDeck.hasOwnProperty(card.id) &&
+                                   this.props.mycardsDeck[card.id].checks &&
+                                   card.limit_break == this.props.mycardsDeck[card.id].lb;         
+                return shouldKeep;
+            });
+        }
+        
         let selectedNames = this.props.selectedCards.map(card => card.char_name);
     
         if(this.props.weights.type > -1) {
             cards = cards.filter(e => e.type === this.props.weights.type);
         }
     
-        let processedCards = processCards(cards, this.props.weights, this.props.selectedCards);
-    
+        let processedCards = processCards(cards, this.props.weights, this.props.selectedCards, this.props.nowSelectId);
+   
         if (processedCards.length === 0) {
             return <div className="tier-list"></div>;
         }
@@ -56,7 +73,7 @@ class TierList extends React.Component {
         let current_row = 0;
         let step = (processedCards[0].score - processedCards[processedCards.length - 1].score) / 7;
         let boundary = processedCards[0].score - step;
-    
+  
         for (let i = 0; i < processedCards.length; i++) {
             while (processedCards[i].score < boundary - 1) {
                 rows.push([]);
@@ -72,10 +89,16 @@ class TierList extends React.Component {
                     key={processedCards[i].id + "LB" + processedCards[i].lb}
                     info={processedCards[i].info}
                     charName={processedCards[i].char_name}
+                    twName={this.props.twCardNames[processedCards[i].id]}
                     selected={selectedNames}
                     card={cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb)}
-                    onClick={() => this.props.cardSelected(cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb))}
+                    onClick={() => {
+                        const selectedCard = cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb);
+                        this.props.cardSelected(selectedCard);
+                        this.props.onGetTrainValue(processedCards[i].id,processedCards[i].trainValue,this.props.twCardNames[processedCards[i].id]);
+                      }}
                     stats={this.state.dropdownSelections}
+                    scenarioLink={this.props.weights.scenarioLink}
                 />
             ));
         }
@@ -92,7 +115,7 @@ class TierList extends React.Component {
         }
     
         let count = this.props.selectedCards.filter((c) => c.type == this.props.weights.type).length;
-        let dropdownOptions = [{value:"none", label:"None"}];
+        let dropdownOptions = [{value:"none", label:"無"}];
         let properties = Object.keys(supportCardProperties).sort();
         for (let i = 0; i < properties.length; i++) {
             dropdownOptions.push({
@@ -102,19 +125,23 @@ class TierList extends React.Component {
         }
     
         return (
+            
             <div className="tier-list">
                 <div className="selectors">
-                    <span className="selectLabel">Show Stats:</span>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{value:"none", label:"None"}}/>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{value:"none", label:"None"}}/>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{value:"none", label:"None"}}/>
+                    <span className="selectLabel">顯示其他資料:</span>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{value:"none", label:"無"}}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{value:"none", label:"無"}}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{value:"none", label:"無"}}/>
                 </div>
-                <span className="label">Ranking for the {ordinal[count]} {type_names[this.props.weights.type]} card in this deck:</span>
+                <span className="label" style={{ fontSize: '20px' }}>該卡組中第 {ordinal[count]} 張 {type_names[this.props.weights.type]} 的計分</span>
+
                 {tiers}
             </div>
+            
         );
     }
 }
+
 
 const tierNames = ['S', 'A', 'B', 'C', 'D', 'E', 'F']
 const raceRewards = [
@@ -124,8 +151,9 @@ const raceRewards = [
     [13.5,13.5,13.5,13.5,13.5,50]
 ]
 
-function processCards(cards, weights, selectedCards) {
+function processCards(cards, weights, selectedCards,nowSelectId) {
     let processedCards = [];
+    let trainValue = {};
     selectedCards = selectedCards.slice();
     
     // Calculate some stuff here so we don't have to do it a million times later
@@ -243,10 +271,11 @@ function processCards(cards, weights, selectedCards) {
         
         let trainingDays = 65 - weights.races[0] - weights.races[1] - weights.races[2];
         if(cardType === 6) trainingDays -= 5;
-        let daysToBond = bondNeeded / weights.bondPerDay;
+        let daysToBond = Math.ceil(bondNeeded / weights.bondPerDay);
         let rainbowDays = trainingDays - daysToBond;
         let specialty = (100 + card.specialty_rate + weights.bonusSpec) * card.unique_specialty * card.fs_specialty;
         let specialtyPercent = specialty / (450 + specialty);
+ 
         let otherPercent = 100 / (450 + specialty);
         let offstatAppearanceDenominator = card.offstat_appearance_denominator;
         let daysPerTraining = [0,0,0,0,0];
@@ -261,7 +290,6 @@ function processCards(cards, weights, selectedCards) {
             card.offSpecialty = otherPercent;
             cardsOfThisType.push(card);
             for (let j = 0; j < cardsOfThisType.length; j++) {
-                console.log(cardsOfThisType);
                 chanceOfSingleRainbow += CalculateCombinationChance([cardsOfThisType[j]], cardsOfThisType, cardType);
             }
             rainbowOverride = 1 - (chanceOfPreferredRainbow * chanceOfSingleRainbow);
@@ -298,7 +326,7 @@ function processCards(cards, weights, selectedCards) {
             let gains = weights.unbondedTrainingGain[training];
             let daysOnThisTraining = daysPerTraining[training];
             energyGain += daysOnThisTraining * gains[6] * card.energy_discount;
-
+            
             let trainingGains = CalculateCrossTrainingGain(gains, weights, card, selectedCards, training, daysOnThisTraining, typeCount, false);
             
             for (let stat = 0; stat < 6; stat ++) {
@@ -329,6 +357,7 @@ function processCards(cards, weights, selectedCards) {
                 energyGain += daysOnThisTraining * card.wisdom_recovery / 5;
             }
         }
+        
 
         info.rainbow_gains = [0,0,0,0,0,0,0];
 
@@ -350,7 +379,6 @@ function processCards(cards, weights, selectedCards) {
         }
 
         info.race_bonus_gains = 0;
-
         // Race bonus
         for (let raceType = 0; raceType < 4; raceType++) {
             for (let stat = 0; stat < 6; stat ++) {
@@ -360,9 +388,13 @@ function processCards(cards, weights, selectedCards) {
         }
 
         // Convert stat gains to score
+ 
         score += GainsToScore(statGains, weights);
+  
+
         score += energyGain * weights.stats[6];
 
+   
         if(weights.scenarioLink.indexOf(card.char_name) > -1) {
             score += weights.scenarioBonus;
         }
@@ -372,18 +404,35 @@ function processCards(cards, weights, selectedCards) {
             lb: card.limit_break,
             score: score,
             info: info,
-            char_name: card.char_name
+            char_name: card.char_name,
+            trainValue : {
+                limitBreakLevel: card.limit_break,
+                basicSpecialtyRate: card.specialty_rate,
+                bonusSpecWeight: weights.bonusSpec,
+                cardUniqueSpecialty: card.unique_specialty,
+                cardFSSpecialty: card.fs_specialty,
+                specialtySum: specialty,
+                finalSpecialtyRate: specialtyPercent,
+                trainingDays: trainingDays,
+                bondNeeded: bondNeeded,
+                daysToBond: daysToBond,
+                rainbowDays: rainbowDays,
+                finalScore: score,
+              }
         })
     }
 
     processedCards.sort((a, b) => b.score - a.score);
+
+    
     return processedCards;
 }
 
 function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, days, rainbow, typeCount) {
     let trainingGains = [0,0,0,0,0,0,0];
-
+    
     let trainingBonus = card.tb + card.fan_bonus * weights.fanBonus;
+  
     if (typeCount >= card.highlander_threshold) trainingBonus += card.highlander_training;
     let fsBonus = 1;
     let motivationBonus = card.mb;
@@ -409,6 +458,7 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
             * weights.umaBonus[stat]
             - gains[stat]);
     }
+ 
     if (GainsToScore(soloGain, weights) > weights.minimum) {
         for (let stat = 0; stat < 6; stat ++) {
             trainingGains[stat] += soloGain[stat]
@@ -421,8 +471,9 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
     if (otherCards.length == 0) return trainingGains;
 
     const combinations = GetCombinations(otherCards);
-
+    
     for (let i = 0; i < combinations.length; i++) {
+        
         let fullCombinationGains = [0,0,0,0,0,0];
         let fullTotalGains = [0,0,0,0,0,0];
         trainingBonus += (combinations[i].length + 1) * card.crowd_bonus;
@@ -450,14 +501,15 @@ function CalculateTrainingGain(gains, weights, card, otherCards, trainingType, d
             if (rainbow) {
                 base += card.fs_stats[stat];
             }
-
+   
             let combinationGains = (base 
                 * combinationTrainingBonus
                 * (1 + weights.motivation * combinationMotivationBonus)
                 * combinationFriendshipBonus
                 * (1.05 * combinations[i].length)
                 * weights.umaBonus[stat]);
-                
+            
+            
             let totalGains = ((base + card.stat_bonus[stat])
                 * (combinationTrainingBonus + trainingBonus - 1)
                 * (1 + weights.motivation * (combinationMotivationBonus + motivationBonus - 1))
