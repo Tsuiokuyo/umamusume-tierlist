@@ -457,6 +457,24 @@ function defaultURAState() {
     }
 }
 
+function nameToChn(name){
+    switch (name){
+        case "URA":
+            return "URA"
+        case "Aoharu":
+            return "青春盃"
+        case "MANT":
+            return "巔峰杯"
+        case "GL" :
+            return "偶像杯"
+        case "GM":
+            return "女神杯"
+        case "LARC":
+            return "凱旋門"
+            
+    }
+}
+
 class Weights extends React.Component {
     constructor(props) {
         super(props);
@@ -761,9 +779,11 @@ class Weights extends React.Component {
                     <input id="friend" type="image" class={this.state.currentState == "friend" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.onTypeChanged} alt="Friend"/>
                 </div>
                 改變屬性會自動調整屬性收益(屬性權重、數值上限、最小訓練值)
-
-                <div className="weight-row">
-                    目前選擇的劇本為 {this.state.scenario}
+                
+                <div className="weight-row"><br />
+                <span style={{ fontWeight: 'bold' }}>
+                    目前預設的劇本為 {this.state.scenario == ""  ? "無" : nameToChn(this.state.scenario)}
+                    </span>
                 </div>
             </div>
         );
