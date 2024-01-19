@@ -467,10 +467,12 @@ function nameToChn(name){
             return "巔峰杯"
         case "GL" :
             return "偶像杯"
-        case "GM":
-            return "女神杯"
-        case "LARC":
-            return "凱旋門"
+        // case "GM":
+        //     return "女神杯"
+        // case "LARC":
+        //     return "凱旋門"
+        default:
+            return "無"
             
     }
 }
@@ -782,7 +784,7 @@ class Weights extends React.Component {
                 
                 <div className="weight-row"><br />
                 <span style={{ fontWeight: 'bold' }}>
-                    目前預設的劇本為 {this.state.scenario == ""  ? "無" : nameToChn(this.state.scenario)}
+                    目前預設的劇本為 {nameToChn(this.state.scenario)}
                     </span>
                 </div>
             </div>
