@@ -773,6 +773,7 @@ class Weights extends React.Component {
                     <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.4" value={this.state.general.umaBonus[4]} min={0.7} max={1.3} step={0.01} precision={2}/>
                 </div>
                 <div className="weight-row">
+                <div class="section-header">擅長訓練</div>
                     <input id="speed" type="image" class={this.state.currentState == "speed" ? "image-btn selected" : "image-btn"} src={SpeedIcon} onClick={this.onTypeChanged} alt="Speed"/>
                     <input id="stamina" type="image" class={this.state.currentState == "stamina" ? "image-btn selected" : "image-btn"} src={StaminaIcon} onClick={this.onTypeChanged} alt="Stamina"/>
                     <input id="power" type="image" class={this.state.currentState == "power" ? "image-btn selected" : "image-btn"} src={PowerIcon} onClick={this.onTypeChanged} alt="Power"/>
@@ -780,8 +781,7 @@ class Weights extends React.Component {
                     <input id="wisdom" type="image" class={this.state.currentState == "wisdom" ? "image-btn selected" : "image-btn"} src={WisdomIcon} onClick={this.onTypeChanged} alt="Wisdom"/>
                     <input id="friend" type="image" class={this.state.currentState == "friend" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.onTypeChanged} alt="Friend"/>
                 </div>
-                改變屬性會自動調整屬性收益(屬性權重、數值上限、最小訓練值)
-                
+                改變訓練會自動調整屬性收益(屬性權重、數值上限、最小訓練值)
                 <div className="weight-row"><br />
                 <span style={{ fontWeight: 'bold' }}>
                     目前預設的劇本為 {nameToChn(this.state.scenario)}

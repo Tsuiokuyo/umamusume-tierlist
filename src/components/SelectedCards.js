@@ -94,7 +94,7 @@ function SelectedCards(props) {
             <div className="section-header">支援卡面板</div>
             <div className="section-explanation">
             按一下會刪除卡片，然後點下面清單中的卡片新增<br/>
-                 分數會使用這些卡片進行訓練時獲得的統計數據，至少需要一張。
+                 分數會使用這些卡片進行訓練時獲得的統計數據，因此這裡至少需要一張卡片。
             </div>
             {cards}
             <div>
