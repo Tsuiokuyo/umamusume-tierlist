@@ -69,9 +69,13 @@
 }
 
 .cards-table input[type="checkbox"] {
-  transform: scale(3); 
+  /* transform: scale(3);  */
+  width: 25px; 
+  height: 25px; 
   margin-right: 5px; 
 }
+
+
 
 
 .custom-table {

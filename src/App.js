@@ -86,7 +86,7 @@ class App extends React.Component {
                 trainValue:{},
                 twName:'',
             },
-            label: "Ranking for the 4th Speed card in this deck:"
+            label: ""
         }
 
 
