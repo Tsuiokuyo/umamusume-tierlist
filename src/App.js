@@ -74,7 +74,7 @@ class App extends React.Component {
             },
             selectedCards: [
                 cards.find((c) => c.id === 30052 && c.limit_break === 4),
-                cards.find((c) => c.id === 30101 && c.limit_break === 4),
+                // cards.find((c) => c.id === 30101 && c.limit_break === 4),
             ],
             availableCards: cards,
             twCardNames: supportCardsName,

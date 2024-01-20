@@ -120,7 +120,9 @@ class CardsTable extends React.Component {
                 </span>
             </div>
         </td>
-        <td>{card.name}</td>
+
+        <td style={{ whiteSpace: 'pre-line' }}>{splitNameToLines(card.name)}</td>
+
         <td>
         <select value={card.lb} onChange={(event) => this.handleLbChange(card.id, event.target.value)} style={{ fontSize: '18px' }}>
     <option value={4}>4</option>
@@ -148,4 +150,9 @@ class CardsTable extends React.Component {
     }
 }
 
+function splitNameToLines(name) {
+    let parts = name.split(']');
+    let adjustedName = parts.map((part, index) => index === 0 ? part + ']' : part.trim()).join('\n');
+    return adjustedName;
+}
 export default CardsTable;

@@ -762,7 +762,7 @@ class Weights extends React.Component {
                        例如小栗帽 速20% 力10% 是1.2、1、1.1、1、1
                     </div>
                     <label for="umaBonus.0">速度</label>
-                    <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.0" value={this.state.general.umaBonus[0]} min={0.7} max={1.3} step={0.01} precision={2}/>
+                    <NumericInput style={{ width: '100px' }} onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.0" value={this.state.general.umaBonus[0]} min={0.7} max={1.3} step={0.01} precision={2}/>
                     <label for="umaBonus.1">耐力</label>
                     <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.1" value={this.state.general.umaBonus[1]} min={0.7} max={1.3} step={0.01} precision={2}/>
                     <label for="umaBonus.2">力量</label>
