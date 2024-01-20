@@ -16,9 +16,7 @@ class CardsTable extends React.Component {
 
     handleChecksChange = (cardId) => {
         const currentChecksStatus = this.props.mycards[cardId].checks;
-
-        console.log(`Toggle checkbox for card ID ${cardId}`);
-
+        // console.log(`Toggle checkbox for card ID ${cardId}`);
         if (currentChecksStatus) {
             this.props.onClick(cardId, false);
         } else {
@@ -90,8 +88,25 @@ class CardsTable extends React.Component {
                         <option value="3">SSR</option>
                         <option value="2">SR</option>
                         <option value="1">R</option>
-
                     </select>
+                </label>
+                <label>
+                    當前篩選條件下擁有
+                        {
+                        Object.entries(mycards)
+                            .filter(([cardId, card]) => card.checks === true)
+                            .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
+                            .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
+                            .length
+                        }
+                        張卡，尚未擁有的卡有
+                        {
+                        Object.entries(mycards)
+                            .filter(([cardId, card]) => card.checks !== true)
+                            .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
+                            .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
+                            .length
+                        }張
                 </label>
                 <table className="cards-table">
                     <thead>
