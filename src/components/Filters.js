@@ -114,14 +114,15 @@ class Filters extends React.Component {
                         {rows}
                     </table>
                 </div>
-                <div>僅顯示持有的牌組(從最下面設定)
-                <input
-                    type="checkbox"
-                    defaultChecked={true}
-                    checked={this.state.isMycard}
-                    onChange={(event) => this.handleChecksChange(event, 'CARD')}
-/>
-                </div>
+                <div style={{ fontWeight: 'bold' }}>
+                    僅顯示持有的牌組(從最下面設定)
+                    <input
+                        type="checkbox"
+                        defaultChecked={true}
+                        checked={this.state.isMycard}
+                        onChange={(event) => this.handleChecksChange(event, 'CARD')}
+                    />
+                    </div>
                 {/* <div>僅顯示台服卡片
                                 <input
                     type="checkbox"

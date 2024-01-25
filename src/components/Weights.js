@@ -638,9 +638,9 @@ class Weights extends React.Component {
                                    <div className="weight-row">
                         <div class="section-header">劇本</div>
                         <div class="section-explanation">
-                            點選後會調整所有預設值
+                            點選劇本後會調整所有參數的預設值
                         </div>
-                        {/* <button id="reset-weights-GL" type="button" onClick={this.onGMReset}>GM</button> */}
+                        {/* <button id="reset-weights-GL" type="button" onClick={this.onGMReset}>女神杯</button> */}
                         <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>偶像杯</button>
                         <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>巔峰杯</button>
                         <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>青春盃</button>
@@ -656,7 +656,7 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">羈絆比率</div>
                         <div class="section-explanation">
-                        在某些牌組中，通常有幾張完全不需要絆值的卡片，你可以將這些視為每回合額外的絆值，1張卡預估為7點。
+                        在某些牌組中，通常有幾張不需要絆值的卡片，可以將這些視為每回合額外的絆值，1張卡預估為7點。
                         </div>
                         <label for="bondPerDay">每回合獲得的絆值:</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bondPerDay" value={this.state.general.bondPerDay} min={1} max={50} step={0.1}/>
@@ -664,10 +664,10 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">特定劇本影響</div>
                         <div class="section-explanation">
-                            巔峰杯(物品)及偶像杯(歌曲)額外提供的加成
-                            擅長率加成為偶像杯(歌曲)加成
+                            訓練加成來自巔峰杯(物品)及偶像杯(歌曲)。
+                            擅長率來自偶像杯(歌曲)。
                         </div>
-                        <label for="multi">倍率:</label>
+                        <label for="multi">訓練加成:</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="multi" value={this.state.general.multi} min={1} max={2.2} step={0.05}/>
                         <label for="bonusSpec">擅長率:</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="bonusSpec" value={this.state.general.bonusSpec} min={-1} max={95} step={5}/>
@@ -675,8 +675,9 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">屬性權重</div>
                         <div class="section-explanation">
-                        屬性權重部分是以相當標準的方式設置的。<br />
-                        意志力是例外，速度和力量被有兩倍的權重。增加你關心的屬性，減少你不關心的屬性。例如要跑短英的馬娘，你會減少耐力的權重。
+                        {/* 屬性權重以標準的方式設定。<br />
+                        意志力是例外， */}
+                        速度和力量被有兩倍的權重。增加你關心的屬性，減少你不關心的屬性。例如要跑短英的馬娘，你會減少耐力的權重。
                         </div>
                         <label for="stats.0">速度</label>
                         <NumericInput onChange={this.onSettingChanged} type="number" id="stats.0" value={this.state[this.state.currentState].stats[0]} min={0} max={3} step={0.1}/>
@@ -696,11 +697,9 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">平均幹勁</div>
                         <div class="section-explanation">
-                        極差	-20%<br />
-                        不佳	-10%<br />
+                        極差	-20%，不佳	-10%<br />
                         普通	0%<br />
-                        良好	+10%<br />
-                        絕佳	+20%<br />
+                        良好	+10%，絕佳	+20%<br />
                         </div>
                         <input type="range" onChange={this.onMotivationChanged} min={-0.2} max={0.2} step={0.05} value={this.state.general.motivation} class="slider" id="motivation"/>
                         <label for="minimum">{this.state.general.motivation * 100}%</label>
@@ -708,7 +707,7 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">數值上限</div>
                         <div class="section-explanation">
-                        限制屬性增益，懲罰只提升一個屬性的卡牌。<br/>
+                        限制屬性增益，降低只提升一個屬性的卡牌。<br/>
                         如果你想要盡早限制你的屬性去堆特定屬性，那麼就降低這個數值。
                         </div>
                         <input type="range" onChange={this.onCapChanged} min={300} max={1000} step={20} value={this.state[this.state.currentState].cap} class="slider" id="cap"/>
@@ -728,13 +727,13 @@ class Weights extends React.Component {
                         <div className="weight-row">
                             <div class="section-header">彩圈調整</div>
                             <div class="section-explanation">
-                            如果停用此選項，則全部資料只會計算單一彩圈
+                            如果停用此選項，則全部資料只會計算單一彩圈，
                             如果任何其他統計數據同時出現彩圈，則會被忽略。
                             </div>
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].prioritize} id="prioritize"/>
                             <label for="prioritize">優先處理這個數據</label>
                             <div class="section-explanation">
-                            如果啟用此選項，則所有彩圈會被忽略
+                            如果啟用此選項，則所有彩圈會被忽略，
                             在這個統計數據中。 只會假設在暑假8天訓練。
                             </div>
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].onlySummer} id="onlySummer"/>
@@ -743,10 +742,11 @@ class Weights extends React.Component {
                     }
                     </>
                 }
-                                    <div className="weight-row">
+                    <div className="weight-row">
                         <div class="section-header">自訂賽程</div>
                         <div class="section-explanation">
-                            預計要跑的賽程，用於計算比賽獎勵並減去訓練回合
+                            預計要跑的賽程，用於計算比賽獎勵並減去訓練回合，
+                            不需要加入出道賽及結算前的三場額外比賽。
                         </div>
                         <label for="races.0">G1</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="races.0" value={this.state.general.races[0]} min={0} max={30} step={1}/>
@@ -758,8 +758,8 @@ class Weights extends React.Component {
                 <div className="weight-row">
                     <div class="section-header">角色成長率</div>
                     <div class="section-explanation">
-                    畫面上成長率的百分比，轉換成十進位。< br / >
-                       例如小栗帽 速20% 力10% 是1.2、1、1.1、1、1
+                    畫面上成長率的百分比，轉換成小數點。< br / >
+                    例如:小栗帽 速20% 力10% 是1.20、1.00、1.10、1.00、1.00
                     </div>
                     <label for="umaBonus.0">速度</label>
                     <NumericInput style={{ width: '100px' }} onChange={this.onGeneralSettingChanged} type="number" id="umaBonus.0" value={this.state.general.umaBonus[0]} min={0.7} max={1.3} step={0.01} precision={2}/>
@@ -781,7 +781,7 @@ class Weights extends React.Component {
                     <input id="wisdom" type="image" class={this.state.currentState == "wisdom" ? "image-btn selected" : "image-btn"} src={WisdomIcon} onClick={this.onTypeChanged} alt="Wisdom"/>
                     <input id="friend" type="image" class={this.state.currentState == "friend" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.onTypeChanged} alt="Friend"/>
                 </div>
-                改變訓練會自動調整屬性收益(屬性權重、數值上限、最小訓練值)
+                改變訓練會自動調整這些屬性收益(屬性權重、數值上限、最小訓練值)
                 <div className="weight-row"><br />
                 <span style={{ fontWeight: 'bold' }}>
                     目前預設的劇本為 {nameToChn(this.state.scenario)}
