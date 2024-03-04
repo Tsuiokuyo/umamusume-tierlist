@@ -7,6 +7,8 @@ function ParamTable(props) {
         return <p>尚無資料</p>;
     }
 
+    const adjustedTwName = twName.replace(/\[|\]/g, match => (match === '[' ? '【' : '】'));
+
     const translationMap = {
         limitBreakLevel: '突破等級',
 
@@ -30,13 +32,13 @@ function ParamTable(props) {
                 <tbody>
                     <tr>
                         <th>名稱</th>
-                        <td>{twName}
+                        <td>{adjustedTwName}
                         <div className="support-card">
                         <img
                             className={"support-card-image"}
                             name={id}
                             src={process.env.PUBLIC_URL + "/cardImages/support_card_s_" + id + ".png"}
-                            title={twName}
+                            title={adjustedTwName}
                             alt={twName}
                         />
                         <span className="limit-breaks">

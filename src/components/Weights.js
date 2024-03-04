@@ -664,7 +664,7 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">特定劇本影響</div>
                         <div class="section-explanation">
-                            訓練加成來自巔峰杯(物品)及偶像杯(歌曲)。
+                            訓練加成來自巔峰杯(物品)及偶像杯(歌曲)。<br />
                             擅長率來自偶像杯(歌曲)。
                         </div>
                         <label for="multi">訓練加成:</label>
@@ -677,7 +677,8 @@ class Weights extends React.Component {
                         <div class="section-explanation">
                         {/* 屬性權重以標準的方式設定。<br />
                         意志力是例外， */}
-                        速度和力量被有兩倍的權重。增加你關心的屬性，減少你不關心的屬性。例如要跑短英的馬娘，你會減少耐力的權重。
+                        速度和力量被有兩倍的權重。增加你關心的屬性，減少你不關心的屬性。<br />
+                        例如要跑短英的馬娘，你會減少耐力的權重。
                         </div>
                         <label for="stats.0">速度</label>
                         <NumericInput onChange={this.onSettingChanged} type="number" id="stats.0" value={this.state[this.state.currentState].stats[0]} min={0} max={3} step={0.1}/>
@@ -727,13 +728,13 @@ class Weights extends React.Component {
                         <div className="weight-row">
                             <div class="section-header">彩圈調整</div>
                             <div class="section-explanation">
-                            如果停用此選項，則全部資料只會計算單一彩圈，
+                            如果停用此選項，則全部資料只會計算單一彩圈，<br />
                             如果任何其他統計數據同時出現彩圈，則會被忽略。
                             </div>
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].prioritize} id="prioritize"/>
                             <label for="prioritize">優先處理這個數據</label>
                             <div class="section-explanation">
-                            如果啟用此選項，則所有彩圈會被忽略，
+                            如果啟用此選項，則所有彩圈會被忽略，<br />
                             在這個統計數據中。 只會假設在暑假8天訓練。
                             </div>
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].onlySummer} id="onlySummer"/>
@@ -745,8 +746,8 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">自訂賽程</div>
                         <div class="section-explanation">
-                            預計要跑的賽程，用於計算比賽獎勵並減去訓練回合，
-                            不需要加入出道賽及結算前的三場額外比賽。
+                            預計要跑的賽程，用於計算比賽獎勵並減去訓練回合，<br />
+                            不需要加入出道賽及劇本結算前的三場額外比賽。
                         </div>
                         <label for="races.0">G1</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="races.0" value={this.state.general.races[0]} min={0} max={30} step={1}/>

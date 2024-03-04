@@ -197,8 +197,11 @@ class CardsTable extends React.Component {
 }
 
 function splitNameToLines(name) {
-    let parts = name.split(']');
-    let adjustedName = parts.map((part, index) => index === 0 ? part + ']' : part.trim()).join('\n');
+    let replacedName = name.replace(/\[|\]/g, match => match === '[' ? '【' : '】');
+    
+    let parts = replacedName.split('】');
+    let adjustedName = parts.map((part, index) => index === 0 ? part + '】 ' : part.trim()).join('\n');
     return adjustedName;
 }
+
 export default CardsTable;
