@@ -1,4 +1,6 @@
 import React from 'react';
+import supportCardsName from "../supportCardsName";
+import cards from "../cards";
 
 class CardsTable extends React.Component {
     constructor(props) {
@@ -72,26 +74,41 @@ class CardsTable extends React.Component {
 
     exportToJsonFile = () => {
         const { mycardsDeck } = this.props;
-        const jsonData = JSON.stringify(mycardsDeck);
 
+        // 將所有卡片的 name 屬性設置為空字符串
+        const updatedMycardsDeck = {};
+        Object.entries(mycardsDeck).forEach(([id, card]) => {
+            const updatedCard = { ...card, name: '' };
+            updatedMycardsDeck[id] = updatedCard;
+        });
+
+        // 將更新後的 mycardsDeck 轉換為 JSON 字符串
+        const jsonData = JSON.stringify(updatedMycardsDeck);
+
+        // 生成時間戳
         const currentDate = new Date();
         const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
         const day = ('0' + currentDate.getDate()).slice(-2);
         const hours = ('0' + currentDate.getHours()).slice(-2);
         const minutes = ('0' + currentDate.getMinutes()).slice(-2);
         const seconds = ('0' + currentDate.getSeconds()).slice(-2);
-
         const dateString = `${month}${day}_${hours}${minutes}${seconds}`;
 
+        // 創建 Blob 對象，並將其轉換為 URL
         const blob = new Blob([jsonData], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
+
+        // 創建下載連結元素並設置屬性
         const link = document.createElement('a');
         link.href = url;
         link.download = `umaTier_${dateString}.json`;
+
+        // 添加連結元素到文檔中，點擊連結執行下載，然後移除連結元素
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };
+
 
 
     handleImportJsonFile = (event) => {

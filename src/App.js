@@ -148,10 +148,24 @@ class App extends React.Component {
     };
 
     handleImportJson = (jsonData) => {
+        // 直接在 twCardNames 中更新名稱
+        Object.entries(jsonData).forEach(([id, importedCard]) => {
+            const existingCard = this.state.twCardNames[id];
+            if (existingCard) {
+                importedCard.name = existingCard;
+            }
+        });
+
+        // 更新狀態和本地存儲
         this.setState({ mycardsDeck: jsonData }, () => {
             localStorage.setItem('mycardsDeck', JSON.stringify(jsonData));
         });
     };
+
+
+
+
+
 
     onWeightsChanged(statWeights, generalWeights) {
         let combinedWeights = {...statWeights, ...generalWeights};
