@@ -140,8 +140,8 @@ class CardsTable extends React.Component {
         const { selectedTypeFilter, selectedRarityFilter } = this.state;
         const filteredCards = Object.fromEntries(
             Object.entries(mycardsDeck)
-                .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
-                .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
+                .filter(([cardId, card]) => card.type == parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
+                .filter(([cardId, card]) => card.rarity == parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
         );
 
         return (
@@ -160,14 +160,14 @@ class CardsTable extends React.Component {
                     <input
                         type="radio"
                         value="0"
-                        checked={nowDeck === 0}
+                        checked={nowDeck == 0}
                         onChange={this.handleDeckChange}
                     />
                     帳號A牌組
                     <input
                         type="radio"
                         value="1"
-                        checked={nowDeck === 1}
+                        checked={nowDeck == 1}
                         onChange={this.handleDeckChange}
                     />
                     帳號B牌組
@@ -194,7 +194,7 @@ class CardsTable extends React.Component {
                     </select>
                 </label>
                 <label>
-                    {nowDeck === 0 ? (
+                    {nowDeck == 0 ? (
                         `當前篩選條件下帳號A有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡，未擁有的卡有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
                     ) : (
                         `當前篩選條件下帳號B有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡，未擁有的卡有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
@@ -243,7 +243,7 @@ class CardsTable extends React.Component {
                             <td>
                                 <input
                                     type="checkbox"
-                                    checked={nowDeck === 0 ? card.checks : card.checks1}
+                                    checked={nowDeck == 0 ? card.checks : card.checks1}
                                     onChange={() => this.handleChecksChange(cardId)}
                                 />
                             </td>
@@ -257,24 +257,24 @@ class CardsTable extends React.Component {
 }
 
 function splitNameToLines(name) {
-    let replacedName = name.replace(/\[|\]/g, match => match === '[' ? '【' : '】');
+    let replacedName = name.replace(/\[|\]/g, match => match == '[' ? '【' : '】');
     let parts = replacedName.split('】');
-    let adjustedName = parts.map((part, index) => index === 0 ? part + '】 ' : part.trim()).join('\n');
+    let adjustedName = parts.map((part, index) => index == 0 ? part + '】 ' : part.trim()).join('\n');
     return adjustedName;
 }
 
 function countCardsByDeckAndCondition(mycardsDeck, deckIndex, nowDeck, selectedTypeFilter, selectedRarityFilter, isOwned) {
     return Object.entries(mycardsDeck)
         .filter(([cardId, card]) => {
-            if (nowDeck === 0) {
-                return (deckIndex === nowDeck) && (isOwned ? card.checks : !card.checks);
-            } else if (nowDeck === 1) {
-                return (deckIndex === nowDeck) && (isOwned ? card.checks1 : !card.checks1);
+            if (nowDeck == 0) {
+                return (deckIndex == nowDeck) && (isOwned ? card.checks : !card.checks);
+            } else if (nowDeck == 1) {
+                return (deckIndex == nowDeck) && (isOwned ? card.checks1 : !card.checks1);
             }
             return false;
         })
-        .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
-        .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
+        .filter(([cardId, card]) => card.type == parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
+        .filter(([cardId, card]) => card.rarity == parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
         .length;
 }
 

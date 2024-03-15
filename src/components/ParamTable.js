@@ -7,7 +7,7 @@ function ParamTable(props) {
         return <p>尚無資料</p>;
     }
 
-    const adjustedTwName = twName.replace(/\[|\]/g, match => (match === '[' ? '【' : '】'));
+    const adjustedTwName = twName.replace(/\[|\]/g, match => (match == '[' ? '【' : '】'));
 
     const translationMap = {
         limitBreakLevel: '突破等級',

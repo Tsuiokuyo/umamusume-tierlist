@@ -17,7 +17,7 @@ class App extends React.Component {
         const mycardsDeck = {};
 
         Object.entries(supportCardsName).forEach(([id, name]) => {
-            const matchingCard = cards.find(card => card.id === parseInt(id, 10));
+            const matchingCard = cards.find(card => card.id == parseInt(id, 10));
             mycardsDeck[id] = {
                 id:id,
                 name: name,
@@ -71,7 +71,7 @@ class App extends React.Component {
                 onlySummer: false,
             },
             selectedCards: [
-                cards.find((c) => c.id === 30052 && c.limit_break === 4),
+                cards.find((c) => c.id == 30052 && c.limit_break == 4),
             ],
             availableCards: cards,
             twCardNames: supportCardsName,
@@ -107,9 +107,9 @@ class App extends React.Component {
     ownClick = (id, bool) => {
         this.setState((prevState) => {
             const updatedMycardsDeck = { ...prevState.mycardsDeck };
-            if (prevState.nowDeck === 0) {
+            if (prevState.nowDeck == 0) {
                 updatedMycardsDeck[id].checks = bool;
-            } else if (prevState.nowDeck === 1) {
+            } else if (prevState.nowDeck == 1) {
                 updatedMycardsDeck[id].checks1 = bool;
             }
 
@@ -154,6 +154,9 @@ class App extends React.Component {
             if (existingCard) {
                 importedCard.name = existingCard;
             }
+            if (!importedCard.hasOwnProperty('checks1')) {
+                importedCard.checks1 = true;
+            }
         });
 
         // 更新狀態和本地存儲
@@ -175,7 +178,7 @@ class App extends React.Component {
     onCardSelected(card) {
         if (this.state.selectedCards.length > 5) return;
         let cards = this.state.selectedCards.slice();
-        let index = this.state.selectedCards.findIndex((c) => c.id === card.id);
+        let index = this.state.selectedCards.findIndex((c) => c.id == card.id);
 
         if (index > -1) {
             cards[index] = card;
@@ -187,9 +190,9 @@ class App extends React.Component {
 
 
     onCardRemoved(card) {
-        if (this.state.selectedCards.length === 1) return;
+        if (this.state.selectedCards.length == 1) return;
         let cards = this.state.selectedCards.slice();
-        let cardIndex = cards.findIndex((c) => c.id === card.id);
+        let cardIndex = cards.findIndex((c) => c.id == card.id);
         cards.splice(cardIndex, 1);
         this.setState({selectedCards:cards});
         this.setState({
@@ -215,7 +218,7 @@ class App extends React.Component {
     onLoadPreset(presetCards) {
         let selectedCards = [];
         for(let i = 0; i < presetCards.length; i++) {
-            selectedCards.push(cards.find((c) => c.id === presetCards[i] && c.limit_break === 4));
+            selectedCards.push(cards.find((c) => c.id == presetCards[i] && c.limit_break == 4));
         }
         this.setState({selectedCards:selectedCards});
     }
@@ -223,7 +226,7 @@ class App extends React.Component {
     findName(jp) {
         let processedText = jp.map(part => {
             if (cards && cards.length > 0) {
-                let card = cards.find(c => c.char_name === part);
+                let card = cards.find(c => c.char_name == part);
                 if (card) {
                     let splitText = supportCardsName[card.id].split(/(\[[^\]]+\])/)[2];
                     return splitText

@@ -50,32 +50,31 @@ class TierList extends React.Component {
 
         if (this.props.checkBox['CARD']) {
             cards = cards.filter(card => {
-                const shouldKeep = this.props.nowDeck === 0
+                const shouldKeep = this.props.nowDeck == 0
                     ? (
                         this.props.mycardsDeck.hasOwnProperty(card.id) &&
                         this.props.mycardsDeck[card.id].checks &&
-                        card.limit_break === this.props.mycardsDeck[card.id].lb
+                        card.limit_break == this.props.mycardsDeck[card.id].lb
                     )
                     : (
                         this.props.mycardsDeck.hasOwnProperty(card.id) &&
                         this.props.mycardsDeck[card.id].checks1 &&
-                        card.limit_break === this.props.mycardsDeck[card.id].lb
+                        card.limit_break == this.props.mycardsDeck[card.id].lb
                     );
 
                 return shouldKeep;
             });
         }
-
         
         let selectedNames = this.props.selectedCards.map(card => card.char_name);
-    
+
         if(this.props.weights.type > -1) {
-            cards = cards.filter(e => e.type === this.props.weights.type);
+            cards = cards.filter(e => e.type == this.props.weights.type);
         }
     
         let processedCards = processCards(cards, this.props.weights, this.props.selectedCards, this.props.nowSelectId);
    
-        if (processedCards.length === 0) {
+        if (processedCards.length == 0) {
             return <div className="tier-list"></div>;
         }
     
@@ -101,9 +100,9 @@ class TierList extends React.Component {
                     charName={processedCards[i].char_name}
                     twName={this.props.twCardNames[processedCards[i].id]}
                     selected={selectedNames}
-                    card={cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb)}
+                    card={cards.find((c) => c.id == processedCards[i].id && c.limit_break === processedCards[i].lb)}
                     onClick={() => {
-                        const selectedCard = cards.find((c) => c.id === processedCards[i].id && c.limit_break === processedCards[i].lb);
+                        const selectedCard = cards.find((c) => c.id == processedCards[i].id && c.limit_break === processedCards[i].lb);
                         this.props.cardSelected(selectedCard);
                         this.props.onGetTrainValue(processedCards[i].id,processedCards[i].trainValue,this.props.twCardNames[processedCards[i].id]);
                       }}
@@ -123,7 +122,6 @@ class TierList extends React.Component {
                 </div>
             )
         }
-    
         let count = this.props.selectedCards.filter((c) => c.type == this.props.weights.type).length;
         let dropdownOptions = [{value:"none", label:"無"}];
         let properties = Object.keys(supportCardProperties).sort();
