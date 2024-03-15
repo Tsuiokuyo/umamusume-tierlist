@@ -10,15 +10,12 @@ import ParamTable from './components/ParamTable';
 
 import React from 'react';
 
-// const ordinal = ["1", "2", "3", "4", "5", "6", "7"];
-// const type_names = ["速卡", "耐卡", "力卡", "根卡", "智卡", "", "友人卡"];
-
 class App extends React.Component {
     constructor(props) {
         super(props);
-
         const supportCardsCopy = JSON.parse(JSON.stringify(supportCardsName));
         const mycardsDeck = {};
+
         Object.entries(supportCardsName).forEach(([id, name]) => {
             const matchingCard = cards.find(card => card.id === parseInt(id, 10));
             mycardsDeck[id] = {
@@ -28,9 +25,10 @@ class App extends React.Component {
                 lb: 4,
                 type: matchingCard ? matchingCard.type : null,
                 rarity:matchingCard ? matchingCard.rarity : null,
+                //後來才想到分組，不好重構，因此直接這樣增加吧
+                checks1: true,
             };
         });
-
 
         this.state = {
             weights: {
@@ -74,7 +72,6 @@ class App extends React.Component {
             },
             selectedCards: [
                 cards.find((c) => c.id === 30052 && c.limit_break === 4),
-                // cards.find((c) => c.id === 30101 && c.limit_break === 4),
             ],
             availableCards: cards,
             twCardNames: supportCardsName,
@@ -86,7 +83,8 @@ class App extends React.Component {
                 trainValue:{},
                 twName:'',
             },
-            label: ""
+            label: "",
+            nowDeck: 0
         }
 
 
@@ -106,17 +104,21 @@ class App extends React.Component {
         // localStorage.clear(); 
     }
 
-    ownClick = (id,bool) => {
+    ownClick = (id, bool) => {
         this.setState((prevState) => {
             const updatedMycardsDeck = { ...prevState.mycardsDeck };
-            updatedMycardsDeck[id].checks = bool;
+            if (prevState.nowDeck === 0) {
+                updatedMycardsDeck[id].checks = bool;
+            } else if (prevState.nowDeck === 1) {
+                updatedMycardsDeck[id].checks1 = bool;
+            }
 
             localStorage.setItem('mycardsDeck', JSON.stringify(updatedMycardsDeck));
-
 
             return { mycardsDeck: updatedMycardsDeck };
         });
     };
+
 
     lbChange = (id,value) => {
         this.setState((prevState) => {
@@ -139,8 +141,17 @@ class App extends React.Component {
           }
         });
       }
-      
 
+    handleDeckChange = (event) => {
+        const selectedDeck = parseInt(event.target.value);
+        this.setState({ nowDeck: selectedDeck });
+    };
+
+    handleImportJson = (jsonData) => {
+        this.setState({ mycardsDeck: jsonData }, () => {
+            localStorage.setItem('mycardsDeck', JSON.stringify(jsonData));
+        });
+    };
 
     onWeightsChanged(statWeights, generalWeights) {
         let combinedWeights = {...statWeights, ...generalWeights};
@@ -257,14 +268,20 @@ class App extends React.Component {
                     cardSelected={this.onCardSelected}
                     twCardNames={this.state.twCardNames}
                     mycardsDeck={this.state.mycardsDeck}
+                    nowDeck={this.state.nowDeck}
                     checkBox={this.state.checkcBox}
                     nowSelectId={this.state.nowSelect.id}
                     onGetTrainValue={this.handletTrainValue}
                 />
 
-                <CardsTable mycards={this.state.mycardsDeck}
-                 onClick={this.ownClick} 
-                 onlbChange={this.lbChange}/>
+                <CardsTable
+                    mycardsDeck={this.state.mycardsDeck}
+                    nowDeck={this.state.nowDeck}
+                    handleDeckChange={this.handleDeckChange}
+                     onClick={this.ownClick}
+                     onlbChange={this.lbChange}
+                    onImportJson={this.handleImportJson}
+                />
             </div>
         );
     }

@@ -48,14 +48,24 @@ class TierList extends React.Component {
             cards = cards.filter(card => this.props.twCardNames.hasOwnProperty(card.id));
         // }
 
-        if(this.props.checkBox['CARD']){
-             cards = cards.filter(card => {
-                const shouldKeep = this.props.mycardsDeck.hasOwnProperty(card.id) &&
-                                   this.props.mycardsDeck[card.id].checks &&
-                                   card.limit_break == this.props.mycardsDeck[card.id].lb;         
+        if (this.props.checkBox['CARD']) {
+            cards = cards.filter(card => {
+                const shouldKeep = this.props.nowDeck === 0
+                    ? (
+                        this.props.mycardsDeck.hasOwnProperty(card.id) &&
+                        this.props.mycardsDeck[card.id].checks &&
+                        card.limit_break === this.props.mycardsDeck[card.id].lb
+                    )
+                    : (
+                        this.props.mycardsDeck.hasOwnProperty(card.id) &&
+                        this.props.mycardsDeck[card.id].checks1 &&
+                        card.limit_break === this.props.mycardsDeck[card.id].lb
+                    );
+
                 return shouldKeep;
             });
         }
+
         
         let selectedNames = this.props.selectedCards.map(card => card.char_name);
     

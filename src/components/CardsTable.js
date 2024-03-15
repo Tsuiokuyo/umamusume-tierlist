@@ -1,10 +1,4 @@
 import React from 'react';
-import SpeedIcon from '../icons/utx_ico_obtain_00.png';
-import StaminaIcon from '../icons/utx_ico_obtain_01.png';
-import PowerIcon from '../icons/utx_ico_obtain_02.png';
-import GutsIcon from '../icons/utx_ico_obtain_03.png';
-import WisdomIcon from '../icons/utx_ico_obtain_04.png';
-import FriendIcon from '../icons/utx_ico_obtain_05.png';
 
 class CardsTable extends React.Component {
     constructor(props) {
@@ -21,39 +15,26 @@ class CardsTable extends React.Component {
     };
 
     handleChecksChange = (cardId) => {
-        const currentChecksStatus = this.props.mycards[cardId].checks;
-        // console.log(`Toggle checkbox for card ID ${cardId}`);
-        if (currentChecksStatus) {
-            this.props.onClick(cardId, false);
-        } else {
-            this.props.onClick(cardId, true);
+        if(this.props.nowDeck == 0) {
+            const currentChecksStatus = this.props.mycardsDeck[cardId].checks;
+            // console.log(`Toggle checkbox for card ID ${cardId}`);
+            if (currentChecksStatus) {
+                this.props.onClick(cardId, false);
+            } else {
+                this.props.onClick(cardId, true);
+            }
+        }else{
+            const currentChecksStatus = this.props.mycardsDeck[cardId].checks1;
+            // console.log(`Toggle checkbox for card ID ${cardId}`);
+            if (currentChecksStatus) {
+                this.props.onClick(cardId, false);
+            } else {
+                this.props.onClick(cardId, true);
+            }
         }
     };
 
     handleTypeFilterChange = (event) => {
-        // let val = "all";
-        // switch (event.target.id){
-        //     case 'c0':
-        //         val = 0;
-        //         break;
-        //     case 'c1':
-        //         val = 1;
-        //         break;
-        //     case 'c2':
-        //         val = 2;
-        //         break;
-        //     case 'c3':
-        //         val = 3;
-        //         break;
-        //     case 'c4':
-        //         val = 4;
-        //         break;
-        //     case 'c6':
-        //         val = 6;
-        //         break;
-        //     default:
-        //         break;
-        // }
         this.setState({
             // selectedTypeFilter: val,
             selectedTypeFilter: event.target.value,
@@ -64,6 +45,11 @@ class CardsTable extends React.Component {
         this.setState({
             selectedRarityFilter: event.target.value,
         });
+    };
+
+    handleDeckChange = (event) => {
+        // const selectedDeck = parseInt(event.target.value);
+        this.props.handleDeckChange(event);
     };
 
     lbColor = (lbValue,bool) => {
@@ -84,29 +70,82 @@ class CardsTable extends React.Component {
         return star;
     };
 
+    exportToJsonFile = () => {
+        const { mycardsDeck } = this.props;
+        const jsonData = JSON.stringify(mycardsDeck);
+
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'mycardsDeck.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+    handleImportJsonFile = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const jsonData = JSON.parse(e.target.result);
+                const isValidFormat = typeof jsonData === 'object';
+                if (isValidFormat) {
+                    this.props.onImportJson(jsonData);
+                    alert('導入成功！');
+                } else {
+                    alert('導入的格式錯誤');
+                }
+            } catch (error) {
+                console.error('解析錯誤：', error);
+                alert('解析錯誤');
+            }
+        };
+        reader.readAsText(file);
+    };
+
+
     render() {
-        const { mycards } = this.props;
+        const { mycardsDeck } = this.props;
+        const {nowDeck} = this.props;
         const { selectedTypeFilter, selectedRarityFilter } = this.state;
         const filteredCards = Object.fromEntries(
-            Object.entries(mycards)
+            Object.entries(mycardsDeck)
                 .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
                 .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
         );
 
         return (
             <div className="cards-table-container">
-                <h2>持有的牌組</h2>
-                篩選:
+                <label>持有的牌組</label>
+                <div className="button-container">
+                    <div className="button-wrapper">
+                        <button onClick={this.exportToJsonFile}>匯出JSON牌組</button>
+                        <div className="file-input-wrapper">
+                            <input type="file" onChange={this.handleImportJsonFile} id="file-input"/>
+                            <span className="file-input-label">匯入JSON牌組</span>
+                        </div>
+                    </div>
+                </div>
+                <span>
+                    <input
+                        type="radio"
+                        value="0"
+                        checked={nowDeck === 0}
+                        onChange={this.handleDeckChange}
+                    />
+                    帳號A牌組
+                    <input
+                        type="radio"
+                        value="1"
+                        checked={nowDeck === 1}
+                        onChange={this.handleDeckChange}
+                    />
+                    帳號B牌組
+                </span>
                 <label>
-                 {/* <div class="section-header">擅長訓練</div>
-                    <input id="c0" type="image" class={this.state.selectedTypeFilter == "0" ? "image-btn selected" : "image-btn"} src={SpeedIcon} onClick={this.handleTypeFilterChange} alt="Speed"/>
-                    <input id="c1" type="image" class={this.state.selectedTypeFilter == "1" ? "image-btn selected" : "image-btn"} src={StaminaIcon} onClick={this.handleTypeFilterChange} alt="Stamina"/>
-                    <input id="c2" type="image" class={this.state.selectedTypeFilter == "2" ? "image-btn selected" : "image-btn"} src={PowerIcon} onClick={this.handleTypeFilterChange} alt="Power"/>
-                    <input id="c3" type="image" class={this.state.selectedTypeFilter == "3" ? "image-btn selected" : "image-btn"} src={GutsIcon} onClick={this.handleTypeFilterChange} alt="Guts"/>
-                    <input id="c4" type="image" class={this.state.selectedTypeFilter == "4" ? "image-btn selected" : "image-btn"} src={WisdomIcon} onClick={this.handleTypeFilterChange} alt="Wisdom"/>
-                    <input id="c6" type="image" class={this.state.selectedTypeFilter == "6" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.handleTypeFilterChange} alt="Friend"/> */}
-                     擅長訓練
-                    <select value={selectedTypeFilter} onChange={this.handleTypeFilterChange}>
+                    擅長訓練：
+                    <select className="deckDrop" value={selectedTypeFilter} onChange={this.handleTypeFilterChange}>
                         <option value="all">不限</option>
                         <option value="0">速度</option>
                         <option value="1">持久力</option>
@@ -117,8 +156,8 @@ class CardsTable extends React.Component {
                     </select>
                 </label>
                 <label>
-                    稀有度
-                    <select value={selectedRarityFilter} onChange={this.handleRarityFilterChange}>
+                    稀有度：
+                    <select className="deckDrop" value={selectedRarityFilter} onChange={this.handleRarityFilterChange}>
                         <option value="all">不限</option>
                         <option value="3">SSR</option>
                         <option value="2">SR</option>
@@ -126,69 +165,61 @@ class CardsTable extends React.Component {
                     </select>
                 </label>
                 <label>
-                    當前篩選條件下擁有
-                        {
-                        Object.entries(mycards)
-                            .filter(([cardId, card]) => card.checks === true)
-                            .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
-                            .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
-                            .length
-                        }
-                        張卡，尚未擁有的卡有
-                        {
-                        Object.entries(mycards)
-                            .filter(([cardId, card]) => card.checks !== true)
-                            .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
-                            .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
-                            .length
-                        }張
+                    {nowDeck === 0 ? (
+                        `當前篩選條件下帳號A有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡，未擁有的卡有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
+                    ) : (
+                        `當前篩選條件下帳號B有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡，未擁有的卡有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
+                    )}
                 </label>
+
                 <table className="cards-table">
                     <thead>
-                        <tr>
-                            <th>卡面</th>
-                            <th>名稱</th>
-                            <th>突破</th>
-                            <th>擁有</th>
-                        </tr>
+                    <tr>
+                        <th>卡面</th>
+                        <th>名稱</th>
+                        <th>突破</th>
+                        <th>擁有</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {Object.entries(filteredCards).map(([cardId, card]) => (
-                            <tr key={cardId}>
-                                <td>
-                                    <div className="support-card">
-                                        <img
-                                            className={"support-card-image"}
-                                            name={cardId}
-                                            src={process.env.PUBLIC_URL + "/cardImages/support_card_s_" + cardId + ".png"}
-                                            title={card.name}
-                                            alt={card.name}
-                                        />
-                                        <span className="limit-breaks">
+                    {Object.entries(filteredCards).map(([cardId, card]) => (
+                        <tr key={cardId}>
+                            <td>
+                                <div className="support-card">
+                                    <img
+                                        className={"support-card-image"}
+                                        name={cardId}
+                                        src={process.env.PUBLIC_URL + "/cardImages/support_card_s_" + cardId + ".png"}
+                                        title={card.name}
+                                        alt={card.name}
+                                    />
+                                    <span className="limit-breaks">
                                             <span className="lb-yes">{this.lbColor(card.lb, true)}</span>
                                             <span className="lb-no">{this.lbColor(card.lb, false)}</span>
                                         </span>
-                                    </div>
-                                </td>
-                                <td style={{ whiteSpace: 'pre-line' }}>{splitNameToLines(card.name)}</td>
-                                <td>
-                                <select value={card.lb} onChange={(event) => this.handleLbChange(card.id, event.target.value)} style={{ fontSize: '18px' }}>
+                                </div>
+                            </td>
+                            <td style={{whiteSpace: 'pre-line'}}>{splitNameToLines(card.name)}</td>
+                            <td>
+                                <select value={card.lb}
+                                        onChange={(event) => this.handleLbChange(card.id, event.target.value)}
+                                        style={{fontSize: '18px'}}>
                                     <option value={4}>4</option>
                                     <option value={3}>3</option>
                                     <option value={2}>2</option>
                                     <option value={1}>1</option>
                                     <option value={0}>0</option>
                                 </select>
-                                </td>
-                                <td>
-                                    <input
-                                        type="checkbox"
-                                        checked={card.checks}
-                                        onChange={() => this.handleChecksChange(cardId)}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
+                            </td>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    checked={nowDeck === 0 ? card.checks : card.checks1}
+                                    onChange={() => this.handleChecksChange(cardId)}
+                                />
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
@@ -198,10 +229,25 @@ class CardsTable extends React.Component {
 
 function splitNameToLines(name) {
     let replacedName = name.replace(/\[|\]/g, match => match === '[' ? '【' : '】');
-    
     let parts = replacedName.split('】');
     let adjustedName = parts.map((part, index) => index === 0 ? part + '】 ' : part.trim()).join('\n');
     return adjustedName;
 }
+
+function countCardsByDeckAndCondition(mycardsDeck, deckIndex, nowDeck, selectedTypeFilter, selectedRarityFilter, isOwned) {
+    return Object.entries(mycardsDeck)
+        .filter(([cardId, card]) => {
+            if (nowDeck === 0) {
+                return (deckIndex === nowDeck) && (isOwned ? card.checks : !card.checks);
+            } else if (nowDeck === 1) {
+                return (deckIndex === nowDeck) && (isOwned ? card.checks1 : !card.checks1);
+            }
+            return false;
+        })
+        .filter(([cardId, card]) => card.type === parseInt(selectedTypeFilter) || selectedTypeFilter === 'all')
+        .filter(([cardId, card]) => card.rarity === parseInt(selectedRarityFilter) || selectedRarityFilter === 'all')
+        .length;
+}
+
 
 export default CardsTable;
