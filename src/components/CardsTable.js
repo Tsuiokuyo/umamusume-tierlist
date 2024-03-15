@@ -74,15 +74,26 @@ class CardsTable extends React.Component {
         const { mycardsDeck } = this.props;
         const jsonData = JSON.stringify(mycardsDeck);
 
+        const currentDate = new Date();
+        const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+        const day = ('0' + currentDate.getDate()).slice(-2);
+        const hours = ('0' + currentDate.getHours()).slice(-2);
+        const minutes = ('0' + currentDate.getMinutes()).slice(-2);
+        const seconds = ('0' + currentDate.getSeconds()).slice(-2);
+
+        const dateString = `${month}${day}_${hours}${minutes}${seconds}`;
+
         const blob = new Blob([jsonData], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'mycardsDeck.json';
+        link.download = `umaTier_${dateString}.json`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };
+
+
     handleImportJsonFile = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -92,9 +103,10 @@ class CardsTable extends React.Component {
                 const isValidFormat = typeof jsonData === 'object';
                 if (isValidFormat) {
                     this.props.onImportJson(jsonData);
-                    alert('導入成功！');
+                    const fileName = file.name; // 取得檔案名稱
+                    alert(`檔案名稱：${fileName} ，匯入成功！`);
                 } else {
-                    alert('導入的格式錯誤');
+                    alert('匯入的格式錯誤');
                 }
             } catch (error) {
                 console.error('解析錯誤：', error);
