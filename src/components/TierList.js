@@ -8,6 +8,11 @@ const ordinal = ["1", "2", "3", "4", "5", "6", "7"];
 const type_names = ["速卡", "耐卡", "力卡", "意志卡", "智卡", "", "友人卡"];
 
 class TierList extends React.Component {
+    componentDidMount() {
+        const defaultValue = { value: "specialty_rate", label: "擅長率" };
+        this.onDropdown1Changed(defaultValue);
+    }
+
     constructor (props) {
         super(props);
 
@@ -137,7 +142,7 @@ class TierList extends React.Component {
             <div className="tier-list">
                 <div className="selectors">
                     <span className="selectLabel">顯示其他資料:</span>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{value:"none", label:"無"}}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{value:"specialty_rate", label:"擅長率"}}/>
                     <Select className="select" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{value:"none", label:"無"}}/>
                     <Select className="select" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{value:"none", label:"無"}}/>
                 </div>
