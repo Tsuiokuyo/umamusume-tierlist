@@ -10,18 +10,20 @@ class Filters extends React.Component {
             sr:[true,true,true,true,true],
             r: [true,true,true,true,true],
             isMycard: true,
-            serverTW: true,
+           // serverTW: true,
         };
 
         this.onSettingChanged = this.onSettingChanged.bind(this);
 
-        if(lsTest()) {
-            let savedFilters = window.localStorage.getItem("filters");
-            if (savedFilters !== null) {
-                savedFilters = JSON.parse(savedFilters);
-                this.state = savedFilters;
-            }
-        }
+        // if(lsTest()) {
+        //     let savedFilters = window.localStorage.getItem("filters");
+        //     if (savedFilters !== null) {
+        //         savedFilters = JSON.parse(savedFilters);
+        //         this.state = savedFilters;
+                
+        //     }
+            
+        // }
 
         let availableCards = cards.filter((c) => {
             if (c.rarity === 1) {
