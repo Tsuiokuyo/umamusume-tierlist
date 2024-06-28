@@ -467,12 +467,12 @@ function nameToChn(name){
             return "巔峰杯"
         case "GL" :
             return "偶像杯"
-        // case "GM":
-        //     return "女神杯"
+         case "GM":
+             return "女神杯"
         // case "LARC":
         //     return "凱旋門"
         default:
-            return "無"
+            return "無選擇劇本"
             
     }
 }
@@ -640,7 +640,8 @@ class Weights extends React.Component {
                         <div class="section-explanation">
                             點選劇本後會調整所有參數的預設值
                         </div>
-                        {/* <button id="reset-weights-GL" type="button" onClick={this.onGMReset}>女神杯</button> */}
+                        {/*  */}
+                        <button id="reset-weights-GM" type="button" onClick={this.onGMReset}>女神杯</button>
                         <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>偶像杯</button>
                         <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>巔峰杯</button>
                         <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>青春盃</button>

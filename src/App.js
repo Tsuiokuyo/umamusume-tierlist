@@ -71,7 +71,7 @@ class App extends React.Component {
                 onlySummer: false,
             },
             selectedCards: [
-                cards.find((c) => c.id == 30052 && c.limit_break == 4),
+                cards.find((c) => c.id == 30137 && c.limit_break == 4),
             ],
             availableCards: cards,
             twCardNames: supportCardsName,
@@ -99,10 +99,38 @@ class App extends React.Component {
     componentDidMount() {
         const savedMycardsDeck = localStorage.getItem('mycardsDeck');
         if (savedMycardsDeck) {
-            this.setState({ mycardsDeck: JSON.parse(savedMycardsDeck) });
-        }
-        // localStorage.clear(); 
+            let mycardsDeck = JSON.parse(savedMycardsDeck); 
+    
+            // 添加新卡
+            const containsSpecificId = mycardsDeck.hasOwnProperty('30143');
+            if (!containsSpecificId) {
+                Object.entries(supportCardsName).forEach(([id, name]) => {
+                    // 检查是否已存在该卡片
+                    if (!mycardsDeck.hasOwnProperty(id)) {
+                        const matchingCard = cards.find(card => card.id === parseInt(id, 10));
+                        mycardsDeck[id] = {
+                            id: id,
+                            name: name,
+                            checks: false,
+                            lb: 4,
+                            type: matchingCard ? matchingCard.type : null,
+                            rarity: matchingCard ? matchingCard.rarity : null,
+                            checks1: false,
+                        };
+                    }
+                });
+    
+                this.setState({ mycardsDeck }); 
+                localStorage.setItem('mycardsDeck', JSON.stringify(mycardsDeck)); 
+               
+            } else {
+                this.setState({ mycardsDeck });
+            }
+        } 
+    
+        //console.log(savedMycardsDeck);
     }
+    
 
     ownClick = (id, bool) => {
         this.setState((prevState) => {
@@ -163,6 +191,7 @@ class App extends React.Component {
         this.setState({ mycardsDeck: jsonData }, () => {
             localStorage.setItem('mycardsDeck', JSON.stringify(jsonData));
         });
+        window.location.reload();
     };
 
 
