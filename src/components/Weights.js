@@ -660,11 +660,11 @@ class Weights extends React.Component {
                             點選劇本後會調整所有參數的預設值
                         </div>
                         {/*  */}
-                        <button id="reset-weights-GM" type="button" onClick={this.onGMReset}>女神杯</button>
-                        <button id="reset-weights-GL" type="button" onClick={this.onGLReset}>偶像杯</button>
-                        <button id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>巔峰杯</button>
-                        <button id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>青春盃</button>
-                        <button id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA</button>
+                        <button class="btn" id="reset-weights-GM" type="button" onClick={this.onGMReset}>女神杯</button>
+                        <button class="btn" id="reset-weights-GL" type="button" onClick={this.onGLReset}>偶像杯</button>
+                        <button class="btn" id="reset-weights-MANT" type="button" onClick={this.onMANTReset}>巔峰杯</button>
+                        <button class="btn" id="reset-weights-URA" type="button" onClick={this.onAoharuReset}>青春盃</button>
+                        <button class="btn" id="reset-weights-URA" type="button" onClick={this.onURAReset}>URA</button>
                     </div>
 
                     <div className="weight-row">
@@ -674,9 +674,9 @@ class Weights extends React.Component {
                     this.state.show &&
                     <>
                     <div className="weight-row">
-                    <div class="section-header">所有參數
+                    <div class="section-header">參數
                         {/*(屬性權重、數值上限、最小訓練值) */}
-                        建議預設即可</div>
+                        建議預設</div>
                     </div>
                     <div className="weight-row">
                         <div class="section-header">羈絆比率</div>
@@ -689,8 +689,8 @@ class Weights extends React.Component {
                     <div className="weight-row">
                         <div class="section-header">特定劇本影響</div>
                         <div class="section-explanation">
-                            訓練加成來自巔峰杯(物品)及偶像杯(歌曲)。<br />
-                            擅長率來自偶像杯(歌曲)。
+                            訓練加成來自物品、歌曲、碎片等。<br />
+                            擅長率來自歌曲等。
                         </div>
                         <label for="multi">訓練加成:</label>
                         <NumericInput onChange={this.onGeneralSettingChanged} type="number" id="multi" value={this.state.general.multi} min={1} max={2.2} step={0.05}/>
