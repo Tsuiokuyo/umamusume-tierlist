@@ -142,9 +142,9 @@ class TierList extends React.Component {
             <div className="tier-list">
                 <div className="selectors">
                     <span className="selectLabel">顯示其他資料:</span>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{value:"specialty_rate", label:"擅長率"}}/>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{value:"none", label:"無"}}/>
-                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{value:"none", label:"無"}}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown1Changed} defaultValue={{value:"specialty_rate", label:"擅長率"}} isSearchable={false}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown2Changed} defaultValue={{value:"none", label:"無"}} isSearchable={false}/>
+                    <Select className="select" options={dropdownOptions} onChange={this.onDropdown3Changed} defaultValue={{value:"none", label:"無"}} isSearchable={false}/>
                 </div>
                 <span className="label" style={{ fontSize: '20px' }}>該卡組中第 {ordinal[count]} 張 {type_names[this.props.weights.type]} 的計分</span>
 
