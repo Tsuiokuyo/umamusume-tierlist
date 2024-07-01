@@ -759,6 +759,7 @@ class Weights extends React.Component {
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].prioritize} id="prioritize"/>
                             <label for="prioritize">處理所有資料</label>
                             <div class="section-explanation">
+                            <br />
                             如果啟用此選項，則所有彩圈會被忽略，<br />
                             在這個統計中。 只會假設在暑假8天訓練。
                             </div>

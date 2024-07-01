@@ -249,7 +249,10 @@ class CardsTable extends React.Component {
                             <td>
                                 <select value={card.lb}
                                         onChange={(event) => this.handleLbChange(card.id, event.target.value)}
-                                        style={{fontSize: '18px'}}>
+                                        style={{fontSize: '18px',
+                                            borderRadius: '4px', 
+                                            cursor: 'pointer', 
+                                        }}>
                                     <option value={4}>4</option>
                                     <option value={3}>3</option>
                                     <option value={2}>2</option>

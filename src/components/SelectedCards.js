@@ -57,6 +57,7 @@ function SelectedCards(props) {
                     title={card.id}
                     alt={card.id}
                     onClick={() => props.onClick(card)}
+                    style={{ cursor: 'pointer' }}
                 />
                 <img
                     className="type-icon"
@@ -65,6 +66,8 @@ function SelectedCards(props) {
                     title="type"
                     alt="card type"
                     onClick={() => props.onClick(card)}
+                    style={{ cursor: 'pointer' }}
+                    
                 />
                 <span className="limit-breaks">
                     <span className="lb-yes">{lit_up}</span>

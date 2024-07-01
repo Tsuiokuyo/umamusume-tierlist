@@ -70,11 +70,15 @@
 
 .cards-table input[type="checkbox"] {
   /* transform: scale(3);  */
-  width: 25px; 
-  height: 25px; 
+  width: 15px; 
+  height: 15px; 
   margin-right: 5px; 
 }
 
+input[type="checkbox"] {
+  transform: scale(1.5); /* 放大复选框 */
+  margin-right: 5px; /* 调整复选框与文本之间的间距 */
+}
 
 
 
@@ -107,5 +111,11 @@
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
+}
+
+.react-numeric-input input {
+  font-size: 18px !important ;
+  padding: 4px; 
+  border-radius: 4px; 
 }
 

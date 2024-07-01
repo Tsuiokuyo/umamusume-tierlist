@@ -37,6 +37,7 @@ function SupportCard(props) {
                     title={props.charName}
                     alt={props.charName}
                     onClick={alreadySelected ? ()=>{} : props.onClick}
+                    style={{ cursor: 'pointer' }}
                 />
                 <MultiLineText twName={props.twName} 
                 isScenarioLink={isScenarioLink}
@@ -68,10 +69,6 @@ function SupportCard(props) {
         statDisplays[i] = `${value}${supportCardProperties[stat].shorthand}`;
     }
 
-   
-   
-
-
     return (
         <div className="support-card">
             <img
@@ -81,6 +78,7 @@ function SupportCard(props) {
                 title={props.charName}
                 alt={props.charName}
                 onClick={alreadySelected ? ()=>{} : props.onClick}
+                style={{ cursor: 'pointer' }}
             />
             <span className="limit-breaks">
                 <span className="lb-yes">{lit_up}</span>
