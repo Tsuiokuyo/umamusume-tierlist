@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NumericInput from 'react-numeric-input';
 import SpeedIcon from '../icons/utx_ico_obtain_00.png';
 import StaminaIcon from '../icons/utx_ico_obtain_01.png';
@@ -494,6 +494,7 @@ class Weights extends React.Component {
         this.onGLReset = this.onGLReset.bind(this);
         this.onGMReset = this.onGMReset.bind(this);
 
+        
         if(lsTest()) {
             let savedWeights = window.localStorage.getItem("weights");
             if (savedWeights !== null) {
@@ -512,6 +513,24 @@ class Weights extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if(prevState && prevState !== this.state && lsTest()) {
             window.localStorage.setItem("weights", JSON.stringify(this.state));
+        }
+
+        if (this.props.weights !== prevProps.weights) {
+            const typeMapping = {
+                0: 'speed',
+                1: 'stamina',
+                2: 'power',
+                3: 'guts',
+                4: 'wisdom',
+                6: 'friend'
+            };
+        
+            const name = typeMapping[parseInt(this.props.weights.type)] || '';
+        
+            this.setState({
+                type: this.props.weights.type,
+                currentState: name
+            });
         }
     }
 
@@ -655,6 +674,11 @@ class Weights extends React.Component {
                     this.state.show &&
                     <>
                     <div className="weight-row">
+                    <div class="section-header">所有參數
+                        {/*(屬性權重、數值上限、最小訓練值) */}
+                        建議預設即可</div>
+                    </div>
+                    <div className="weight-row">
                         <div class="section-header">羈絆比率</div>
                         <div class="section-explanation">
                         在某些牌組中，通常有幾張不需要絆值的卡片，可以將這些視為每回合額外的絆值，1張卡預估為7點。
@@ -733,10 +757,10 @@ class Weights extends React.Component {
                             如果任何其他統計數據同時出現彩圈，則會被忽略。
                             </div>
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].prioritize} id="prioritize"/>
-                            <label for="prioritize">優先處理這個數據</label>
+                            <label for="prioritize">處理所有資料</label>
                             <div class="section-explanation">
                             如果啟用此選項，則所有彩圈會被忽略，<br />
-                            在這個統計數據中。 只會假設在暑假8天訓練。
+                            在這個統計中。 只會假設在暑假8天訓練。
                             </div>
                             <input type="checkbox" onChange={this.onSettingChanged} checked={this.state[this.state.currentState].onlySummer} id="onlySummer"/>
                             <label for="onlySummer">只在暑假訓練</label>
@@ -783,10 +807,9 @@ class Weights extends React.Component {
                     <input id="wisdom" type="image" class={this.state.currentState == "wisdom" ? "image-btn selected" : "image-btn"} src={WisdomIcon} onClick={this.onTypeChanged} alt="Wisdom"/>
                     <input id="friend" type="image" class={this.state.currentState == "friend" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.onTypeChanged} alt="Friend"/>
                 </div>
-                改變訓練會自動調整這些屬性收益(屬性權重、數值上限、最小訓練值)
                 <div className="weight-row"><br />
                 <span style={{ fontWeight: 'bold' }}>
-                    目前預設的劇本為 {nameToChn(this.state.scenario)}
+                    目前選擇的劇本為 {nameToChn(this.state.scenario)}
                     </span>
                 </div>
             </div>

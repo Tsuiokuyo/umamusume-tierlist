@@ -1,6 +1,16 @@
 import React from 'react';
 import supportCardsName from "../supportCardsName";
 import cards from "../cards";
+import SpeedIcon from '../icons/utx_ico_obtain_00.png';
+import StaminaIcon from '../icons/utx_ico_obtain_01.png';
+import PowerIcon from '../icons/utx_ico_obtain_02.png';
+import GutsIcon from '../icons/utx_ico_obtain_03.png';
+import WisdomIcon from '../icons/utx_ico_obtain_04.png';
+import FriendIcon from '../icons/utx_ico_obtain_05.png';
+
+import RIcon from '../icons/utx_ico_obtain_R.png';
+import SRIcon from '../icons/utx_ico_obtain_SR.png';
+import SSRIcon from '../icons/utx_ico_obtain_SSR.png';
 
 class CardsTable extends React.Component {
     constructor(props) {
@@ -38,14 +48,15 @@ class CardsTable extends React.Component {
 
     handleTypeFilterChange = (event) => {
         this.setState({
-            // selectedTypeFilter: val,
-            selectedTypeFilter: event.target.value,
+            selectedTypeFilter: event.target.id,
         });
+        this.props.weights.type = event.target.id;
+        this.props.onWeightsChange(this.props.weights);
     };
 
-    handleRarityFilterChange= (event) => {
+    handleRarityFilterChange = (rarityValue) => {
         this.setState({
-            selectedRarityFilter: event.target.value,
+            selectedRarityFilter: rarityValue,
         });
     };
 
@@ -145,6 +156,7 @@ class CardsTable extends React.Component {
         );
 
         return (
+            
             <div className="cards-table-container">
                 <label>持有的牌組</label>
                 <div className="button-container">
@@ -174,7 +186,7 @@ class CardsTable extends React.Component {
                 </span>
                 <label>
                     擅長訓練：
-                    <select className="deckDrop" value={selectedTypeFilter} onChange={this.handleTypeFilterChange}>
+                    {/* <select className="deckDrop" value={selectedTypeFilter} onChange={this.handleTypeFilterChange}>
                         <option value="all">不限</option>
                         <option value="0">速度</option>
                         <option value="1">持久力</option>
@@ -183,21 +195,26 @@ class CardsTable extends React.Component {
                         <option value="4">智力</option>
                         <option value="6">友人</option>
                     </select>
+                     */}
+                     <input id="0" type="image" class={this.props.weights.type == "0" ? "image-btn selected" : "image-btn"} src={SpeedIcon} onClick={this.handleTypeFilterChange} alt="Speed"/>
+                     <input id="1" type="image" class={this.props.weights.type == "1" ? "image-btn selected" : "image-btn"} src={StaminaIcon} onClick={this.handleTypeFilterChange} alt="Stamina"/>
+                    <input id="2" type="image" class={this.props.weights.type == "2" ? "image-btn selected" : "image-btn"} src={PowerIcon} onClick={this.handleTypeFilterChange} alt="Power"/>
+                    <input id="3" type="image" class={this.props.weights.type == "3" ? "image-btn selected" : "image-btn"} src={GutsIcon} onClick={this.handleTypeFilterChange} alt="Guts"/>
+                    <input id="4" type="image" class={this.props.weights.type == "4" ? "image-btn selected" : "image-btn"} src={WisdomIcon} onClick={this.handleTypeFilterChange} alt="Wisdom"/>
+                    <input id="6" type="image" class={this.props.weights.type == "6" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.handleTypeFilterChange} alt="Friend"/>
                 </label>
                 <label>
                     稀有度：
-                    <select className="deckDrop" value={selectedRarityFilter} onChange={this.handleRarityFilterChange}>
-                        <option value="all">不限</option>
-                        <option value="3">SSR</option>
-                        <option value="2">SR</option>
-                        <option value="1">R</option>
-                    </select>
+                    <input id="SSR" type="image" class={selectedRarityFilter == "3" ? "image-btn selected" : "image-btn"} src={SSRIcon} onClick={() => this.handleRarityFilterChange("3")} alt="SSR"  style={{ width: '35px', height: '35px' }}/>
+                    <input id="SR" type="image" class={selectedRarityFilter == "2" ? "image-btn selected" : "image-btn"} src={SRIcon} onClick={() => this.handleRarityFilterChange("2")} alt="SR"  style={{ width: '35px', height: '35px' }}/>
+                    <input id="R" type="image" class={selectedRarityFilter == "1" ? "image-btn selected" : "image-btn"} src={RIcon} onClick={() => this.handleRarityFilterChange("1")} alt="R"  style={{ width: '35px', height: '35px' }}/>
+
                 </label>
                 <label>
                     {nowDeck == 0 ? (
-                        `當前篩選條件下帳號A有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡，未擁有的卡有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
+                        `當前篩選條件下，共有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡片，其中未擁有的卡片為 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
                     ) : (
-                        `當前篩選條件下帳號B有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡，未擁有的卡有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
+                        `當前篩選條件下，共有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡片，其中未擁有的卡片為 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
                     )}
                 </label>
 

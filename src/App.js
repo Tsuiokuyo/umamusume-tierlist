@@ -25,7 +25,7 @@ class App extends React.Component {
                 lb: 4,
                 type: matchingCard ? matchingCard.type : null,
                 rarity:matchingCard ? matchingCard.rarity : null,
-                //後來才想到分組，不好重構，因此直接這樣增加吧
+                //後來才想到分組，但用途並不大，因此直接這樣增加吧
                 checks1: true,
             };
         });
@@ -279,6 +279,7 @@ class App extends React.Component {
 
 
                 <Weights
+                    weights={this.state.weights}
                     onChange={this.onWeightsChanged}
                     />
 <div style={{ display: 'flex' }}>
@@ -322,10 +323,12 @@ class App extends React.Component {
 
                 <CardsTable
                     mycardsDeck={this.state.mycardsDeck}
+                    weights={this.state.weights}
+                    onWeightsChange={this.onWeightsChanged}
                     nowDeck={this.state.nowDeck}
                     handleDeckChange={this.handleDeckChange}
-                     onClick={this.ownClick}
-                     onlbChange={this.lbChange}
+                    onClick={this.ownClick}
+                    onlbChange={this.lbChange}
                     onImportJson={this.handleImportJson}
                 />
             </div>
