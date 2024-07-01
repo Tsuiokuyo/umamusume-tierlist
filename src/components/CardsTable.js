@@ -185,8 +185,8 @@ class CardsTable extends React.Component {
                     帳號B牌組
                 </span>
                 <label>
-                    擅長訓練：
-                    {/* <select className="deckDrop" value={selectedTypeFilter} onChange={this.handleTypeFilterChange}>
+                <br />{/*擅長訓練：<br />
+                     <select className="deckDrop" value={selectedTypeFilter} onChange={this.handleTypeFilterChange}>
                         <option value="all">不限</option>
                         <option value="0">速度</option>
                         <option value="1">持久力</option>
@@ -204,27 +204,27 @@ class CardsTable extends React.Component {
                     <input id="6" type="image" class={this.props.weights.type == "6" ? "image-btn selected" : "image-btn"} src={FriendIcon} onClick={this.handleTypeFilterChange} alt="Friend"/>
                 </label>
                 <label>
-                    稀有度：
+                    
                     <input id="SSR" type="image" class={selectedRarityFilter == "3" ? "image-btn selected" : "image-btn"} src={SSRIcon} onClick={() => this.handleRarityFilterChange("3")} alt="SSR"  style={{ width: '35px', height: '35px' }}/>
-                    <input id="SR" type="image" class={selectedRarityFilter == "2" ? "image-btn selected" : "image-btn"} src={SRIcon} onClick={() => this.handleRarityFilterChange("2")} alt="SR"  style={{ width: '35px', height: '35px' }}/>
-                    <input id="R" type="image" class={selectedRarityFilter == "1" ? "image-btn selected" : "image-btn"} src={RIcon} onClick={() => this.handleRarityFilterChange("1")} alt="R"  style={{ width: '35px', height: '35px' }}/>
+                    &emsp;<input id="SR" type="image" class={selectedRarityFilter == "2" ? "image-btn selected" : "image-btn"} src={SRIcon} onClick={() => this.handleRarityFilterChange("2")} alt="SR"  style={{ width: '35px', height: '35px' }}/>
+                    &emsp;<input id="R" type="image" class={selectedRarityFilter == "1" ? "image-btn selected" : "image-btn"} src={RIcon} onClick={() => this.handleRarityFilterChange("1")} alt="R"  style={{ width: '35px', height: '35px' }}/>
 
                 </label>
-                <label>
+                 {/*<label>
                     {nowDeck == 0 ? (
                         `當前篩選條件下，共有 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡片，其中未擁有的卡片為 ${countCardsByDeckAndCondition(mycardsDeck, 0, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
                     ) : (
                         `當前篩選條件下，共有 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, true)} 張卡片，其中未擁有的卡片為 ${countCardsByDeckAndCondition(mycardsDeck, 1, nowDeck, selectedTypeFilter, selectedRarityFilter, false)} 張`
                     )}
-                </label>
+                </label>*/}
 
                 <table className="cards-table">
                     <thead>
                     <tr>
-                        <th>卡面</th>
-                        <th>名稱</th>
-                        <th>突破</th>
-                        <th>擁有</th>
+                        <th style={{ width: '30%' }}>卡面</th>
+                        <th style={{ width: '40%' }}>名稱</th>
+                        <th style={{ width: '15%' }}>突破</th>
+                        <th style={{ width: '15%' }}>擁有</th>
                     </tr>
                     </thead>
                     <tbody>
