@@ -1,6 +1,4 @@
 import React from 'react';
-import supportCardsName from "../supportCardsName";
-import cards from "../cards";
 import SpeedIcon from '../icons/utx_ico_obtain_00.png';
 import StaminaIcon from '../icons/utx_ico_obtain_01.png';
 import PowerIcon from '../icons/utx_ico_obtain_02.png';
@@ -20,6 +18,15 @@ class CardsTable extends React.Component {
             selectedTypeFilter: '0',
             selectedRarityFilter: '3',
         };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.weights.type !== prevProps.weights.type) {
+            this.setState({
+                type: this.props.weights.type,
+                selectedTypeFilter: this.props.weights.type
+            });
+        }
     }
 
     handleLbChange = (id, value) => {
@@ -158,7 +165,7 @@ class CardsTable extends React.Component {
         return (
             
             <div className="cards-table-container">
-                <label>持有的牌組</label>
+                <div class="section-header">持有的牌組</div>
                 <div className="button-container">
                     <div className="button-wrapper">
                         <button onClick={this.exportToJsonFile}>匯出JSON牌組</button>
@@ -170,6 +177,7 @@ class CardsTable extends React.Component {
                 </div>
                 <span>
                     <input
+                        name="card0"
                         type="radio"
                         value="0"
                         checked={nowDeck == 0}
@@ -177,6 +185,7 @@ class CardsTable extends React.Component {
                     />
                     帳號A牌組
                     <input
+                        name="card1"
                         type="radio"
                         value="1"
                         checked={nowDeck == 1}
@@ -247,7 +256,9 @@ class CardsTable extends React.Component {
                             </td>
                             <td style={{whiteSpace: 'pre-line'}}>{splitNameToLines(card.name)}</td>
                             <td>
-                                <select value={card.lb}
+                                <select 
+                                        name={cardId}
+                                        value={card.lb}
                                         onChange={(event) => this.handleLbChange(card.id, event.target.value)}
                                         style={{fontSize: '18px',
                                             borderRadius: '4px', 
@@ -263,6 +274,7 @@ class CardsTable extends React.Component {
                             <td>
                                 <input
                                     type="checkbox"
+                                    name={cardId}
                                     checked={nowDeck == 0 ? card.checks : card.checks1}
                                     onChange={() => this.handleChecksChange(cardId)}
                                 />

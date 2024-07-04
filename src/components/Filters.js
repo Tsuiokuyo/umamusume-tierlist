@@ -120,6 +120,7 @@ class Filters extends React.Component {
                     僅顯示持有的牌組(從最下面設定)
                     <input
                         type="checkbox"
+                        name="isMyCard"
                         defaultChecked={true}
                         checked={this.state.isMycard}
                         onChange={(event) => this.handleChecksChange(event, 'CARD')}

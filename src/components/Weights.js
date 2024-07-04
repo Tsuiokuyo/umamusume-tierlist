@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import NumericInput from 'react-numeric-input';
 import SpeedIcon from '../icons/utx_ico_obtain_00.png';
 import StaminaIcon from '../icons/utx_ico_obtain_01.png';
@@ -8,6 +8,7 @@ import WisdomIcon from '../icons/utx_ico_obtain_04.png';
 import FriendIcon from '../icons/utx_ico_obtain_05.png';
 import { lsTest } from '../utils';
 
+//女神杯
 function defaultGMState() {
     return {
         version: 26,
@@ -97,6 +98,7 @@ function defaultGMState() {
     }
 }
 
+//偶像杯
 function defaultGLState() {
     return {
         version: 18,
@@ -190,6 +192,7 @@ function defaultGLState() {
     }
 }
 
+//巔峰杯
 function defaultMANTState() {
     return {
         version: 18,
@@ -277,11 +280,12 @@ function defaultMANTState() {
     }
 }
 
+//青春盃
 function defaultAoharuState() {
     return {
         version: 18,
         scenario: "Aoharu",
-        currentState: "wisdom",
+        currentState: "speed",
         show: false,
         general: {
             bondPerDay: 20,
@@ -370,6 +374,7 @@ function defaultAoharuState() {
     }
 }
 
+//URA
 function defaultURAState() {
     return {
         version: 18,
