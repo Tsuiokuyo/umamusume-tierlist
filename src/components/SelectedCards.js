@@ -105,7 +105,7 @@ function SelectedCards(props) {
                 {/* <i>(推薦為35,巔峰杯為50 )</i> */}
             </div>
              <div class="link">
-             <a href={getEventHelperURL(props.selectedCards, props.weights.scenario)} target="_blank" style={{ color: 'inherit' }}>跳轉至Gametora卡片事件檢視</a>
+             <a href={getEventHelperURL(props.selectedCards, props.weights.scenario)} target="_blank" style={{ color: 'inherit' }}>跳轉至Gametora網站查看卡片事件</a>
  
             </div> 
 
