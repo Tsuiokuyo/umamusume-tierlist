@@ -104,12 +104,39 @@ function SelectedCards(props) {
                 總競賽加成: <b>{raceBonus}</b> 
                 {/* <i>(推薦為35,巔峰杯為50 )</i> */}
             </div>
-            {/* <div class="link">
-                 <a href={getEventHelperURL(props.selectedCards)} target="_blank">Open in Gametora Event Helper</a> 
-            </div> */}
+             <div class="link">
+             <a href={getEventHelperURL(props.selectedCards, props.weights.scenario)} target="_blank" style={{ color: 'inherit' }}>跳轉至Gametora卡片事件檢視</a>
+ 
+            </div> 
 
         </div>
     );
+}
+
+function getEventHelperURL(selectedCards ,scenario) {
+    let url = "https://gametora.com/zh-tw/umamusume/training-event-helper?deck=";
+    const base = "100000"
+    scenario = scenarioToNum(scenario)
+    url += parseInt(base + scenario, 10).toString(36);
+    url += "-"
+    let ids = selectedCards.map(c => c.id);
+    while (ids.length < 6) ids.push(10000)
+    url += parseInt(`${ids[0]}${ids[1]}${ids[2]}`, 10).toString(36);
+    url += "-";
+    url += parseInt(`${ids[3]}${ids[4]}${ids[5]}`, 10).toString(36);
+
+    return url;
+}
+
+function scenarioToNum(scenario) {
+    const scenarioMap = {
+        "URA": "1",
+        "Aoharu": "2",
+        "MANT": "4",
+        "GL": "3",
+        "GM": "5"
+    };
+    return scenarioMap[scenario] || "0";
 }
 
 

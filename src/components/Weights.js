@@ -47,6 +47,7 @@ function defaultGMState() {
                 "ダーレーアラビアン"
             ],
             scenarioBonus: 150,
+            scenario :"GM",
             fanBonus: 0.1,
         },
         speed: {
@@ -141,6 +142,7 @@ function defaultGLState() {
                 "サイレンススズカ",
             ],
             scenarioBonus: 75,
+            scenario : "GL",
             fanBonus: 0.05,
         },
         speed: {
@@ -229,6 +231,7 @@ function defaultMANTState() {
             motivation: 0.2,
             scenarioLink: [],
             scenarioBonus: 0,
+            scenario:"MANT",
             fanBonus: 0.15
         },
         speed: {
@@ -323,6 +326,7 @@ function defaultAoharuState() {
                 "タイキシャトル"
             ],
             scenarioBonus: 40,
+            scenario: "Aoharu",
             fanBonus: 0.05
         },
         speed: {
@@ -411,6 +415,7 @@ function defaultURAState() {
             motivation: 0.2,
             scenarioLink: ["桐生院葵"],
             scenarioBonus: 16,
+            scenario: "URA",
             fanBonus: 0.05
         },
         speed: {
