@@ -1,3 +1,8 @@
+# 大師盃後停更
+兩項原因
+1. 無新劇本數據化、劇本加成數據化資料
+2. 無新支援卡事件數據化及判斷選項資料
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
