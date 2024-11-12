@@ -274,8 +274,10 @@ class App extends React.Component {
                 <h1>賽馬娘支援卡訓練排名表</h1>
                 <span className="section-explanation">
   計算回合數為65回合，不考慮技能，只考慮卡面數值、事件以及劇本連結加成。<br/>
-
-</span>
+</span><br/>
+				 <span className="section-explanation" style={{ fontSize: '12px' }}>女神盃後停更，有幾項原因<br/>
+後續新劇本、劇本加成、支援卡事件<br/>
+及判斷選項資料等，難以自動數據化<br/><br/></span>
 
 
                 <Weights
